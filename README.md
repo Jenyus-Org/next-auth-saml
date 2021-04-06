@@ -3,7 +3,7 @@
 ![Docker Compose](https://img.shields.io/badge/Docker%20Compose-v3-informational?style=flat&logo=docker)
 ![Docker Compose](https://img.shields.io/badge/Next.js-10.1-black?style=flat&logo=next.js)
 
-A sample application using Next-Auth.js to authenticate with SAML IdPs.
+A sample application using Next-Auth.js and `saml2-js` to authenticate with SAML IdPs.
 
 ## What this Sample Includes
 
