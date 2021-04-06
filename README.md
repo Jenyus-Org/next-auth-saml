@@ -19,6 +19,22 @@ The mock IdP will be exposed under http://localhost:8080/simplesaml and our Next
 
 ## Setup
 
+### Cloning the GitHub Repository
+
+First, clone this repository to your local machine:
+
+```bash
+git clone https://github.com/Jenyus-Org/next-auth-saml.git
+```
+
+### Installing Dependencies
+
+Then, use `yarn` to install the dependencies:
+
+```bash
+yarn
+```
+
 ### Generating Certificates with OpenSSL
 
 In order to setup our service provider, we need to generate some SP keys, we can do so using OpenSSL:
