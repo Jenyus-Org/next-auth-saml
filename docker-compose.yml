@@ -9,7 +9,7 @@ services:
       - "8080:8080"
     environment:
       SIMPLESAMLPHP_SP_ENTITY_ID: saml-poc
-      SIMPLESAMLPHP_SP_ASSERTION_CONSUMER_SERVICE: http://localhost:3000/api/auth/saml
+      SIMPLESAMLPHP_SP_ASSERTION_CONSUMER_SERVICE: http://localhost:3000/api/auth/login/saml
   nextjs:
     restart: always
     build:
