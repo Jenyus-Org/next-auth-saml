@@ -1,53 +1,51 @@
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import { getSession, signIn, signOut } from "next-auth/client";
+import Head from "next/head";
+import styles from "../styles/Home.module.css";
 
-export default function Home() {
+export default function Home({ session }) {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Create Next App</title>
+        <title>Next-Auth SAML Example</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
+        <h1 className={styles.title}>Welcome to Next-Auth.js SAML Example!</h1>
+
+        <br />
 
         <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
+          Welcome back {session.user.attributes.email}
         </p>
 
         <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
+          <button
+            onClick={() => {
+              signOut();
+              signIn();
+            }}
             className={styles.card}
           >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+            <h3>Log Out</h3>
+          </button>
         </div>
+
+        <h3>User Information</h3>
+        <pre className={styles.code}>
+          <code>
+            {JSON.stringify(
+              (({ attributes, ...info }) => info)(session.user),
+              null,
+              2
+            )}
+          </code>
+        </pre>
+
+        <h3>User Attributes</h3>
+        <pre className={styles.code}>
+          <code>{JSON.stringify(session.user.attributes, null, 2)}</code>
+        </pre>
       </main>
 
       <footer className={styles.footer}>
@@ -56,10 +54,27 @@ export default function Home() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
+          Powered by{" "}
+          <img src="/jenyus.svg" alt="Vercel Logo" className={styles.logo} />
         </a>
       </footer>
     </div>
-  )
+  );
 }
+
+export const getServerSideProps = async (context) => {
+  const session = await getSession(context);
+
+  if (!session) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: `/login?callbackUrl=${context.resolvedUrl}`,
+      },
+    };
+  }
+
+  return {
+    props: { session },
+  };
+};
