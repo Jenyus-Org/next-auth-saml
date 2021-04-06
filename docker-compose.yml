@@ -2,6 +2,7 @@ version: "3"
 
 services:
   idp:
+    restart: always
     image: kristophjunge/test-saml-idp
     ports:
       - "8443:8443"
@@ -10,6 +11,7 @@ services:
       SIMPLESAMLPHP_SP_ENTITY_ID: saml-poc
       SIMPLESAMLPHP_SP_ASSERTION_CONSUMER_SERVICE: http://localhost:3000/api/auth/saml
   nextjs:
+    restart: always
     build:
       context: ./
     ports:
