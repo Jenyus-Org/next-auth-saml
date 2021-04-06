@@ -30,7 +30,6 @@ export default NextAuth({
 
         try {
           const { user } = await postAssert(identityProvider, samlBody);
-          console.log(user);
           return user;
         } catch (error) {
           console.error(error);
