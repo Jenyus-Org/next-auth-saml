@@ -40,19 +40,25 @@ yarn
 In order to setup our service provider, we need to generate some SP keys, we can do so using OpenSSL:
 
 ```bash
-openssl req -x509 -newkey rsa:4096 -keyout certs\key.pem
--out certs\cert.pem -nodes -days 900
+openssl req -x509 -newkey rsa:4096 -keyout certs\key.pem -out certs\cert.pem -nodes -days 900
 ```
 
-### Running the Docker Containers
-
-Thanks to Docker-Compose we can launch the entire app using a single command:
-
+## Generating idp_key.pem
+One certificate is still missing. So:
+1. Run the docker container
 ```bash
 docker-compose up --build
 ```
+2. Go to http://localhost:8080/simplesaml/saml2/idp/metadata.php?output=xhtml
+3. Look for **certData** and copy its value
+4. Create **idp_key.pem** insider certs/.
+5. Stop the container
+6. Run it again 
+```bash
+docker-compose up --build
+```
+6. Now head to http://localhost:3000 and try logging in. The SAML credentials are `user1` and `user1pass`.
 
-Now head to http://localhost:3000 and try logging in. The SAML credentials are `user1` and `user1pass`.
 
 ## Customizing
 
